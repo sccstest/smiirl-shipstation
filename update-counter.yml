@@ -1,0 +1,35 @@
+name: Update Order Count
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"  # every 5 minutes
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install axios
+
+      - name: Run script
+        run: node update.js
+        env:
+          SS_API_KEY: ${{ secrets.SS_API_KEY }}
+          SS_API_SECRET: ${{ secrets.SS_API_SECRET }}
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add public/order_count.json
+          git commit -m "Update order count" || echo "No changes"
+          git push
