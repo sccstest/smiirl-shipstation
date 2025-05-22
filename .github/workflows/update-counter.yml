@@ -26,10 +26,15 @@ jobs:
           SS_API_KEY: ${{ secrets.SS_API_KEY }}
           SS_API_SECRET: ${{ secrets.SS_API_SECRET }}
 
-      - name: Commit and push
+      - name: Commit changes
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}
           git add public/order_count.json
           git commit -m "Update order count" || echo "No changes"
           git push
+
+
