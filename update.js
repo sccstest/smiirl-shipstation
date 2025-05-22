@@ -1,8 +1,8 @@
 const axios = require("axios");
 const fs = require("fs");
 
-const username = b659a1ab944d475b9fe6bf2755d90c62;
-const password = 5c41edfd2e97427fb8421467fc1568e2;
+const username = process.env.b659a1ab944d475b9fe6bf2755d90c62;
+const password = process.env.5c41edfd2e97427fb8421467fc1568e2;
 
 async function updateOrderCount() {
   try {
